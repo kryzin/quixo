@@ -155,7 +155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9f006f4ced17646b0adc2036650d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverAmount: 1.6
+  outlineMaterial: {fileID: 2100000, guid: d44cbbe152fcd0e44b1345b256d24624, type: 2}
 --- !u!65 &145692315
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -236,7 +236,7 @@ Transform:
   m_GameObject: {fileID: 145692313}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: 0.5, z: 2}
+  m_LocalPosition: {x: 4, y: 0.5, z: 4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -342,7 +342,7 @@ Transform:
   m_GameObject: {fileID: 239326483}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3, y: 0.5, z: 2}
+  m_LocalPosition: {x: -4, y: 0.5, z: 4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -360,7 +360,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9f006f4ced17646b0adc2036650d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverAmount: 1.6
+  outlineMaterial: {fileID: 2100000, guid: d44cbbe152fcd0e44b1345b256d24624, type: 2}
 --- !u!1 &350151302
 GameObject:
   m_ObjectHideFlags: 0
@@ -393,7 +393,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9f006f4ced17646b0adc2036650d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverAmount: 1.6
+  outlineMaterial: {fileID: 2100000, guid: d44cbbe152fcd0e44b1345b256d24624, type: 2}
 --- !u!65 &350151304
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -474,7 +474,7 @@ Transform:
   m_GameObject: {fileID: 350151302}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.75, y: 0.5, z: -1.75}
+  m_LocalPosition: {x: 2, y: 0.5, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -580,7 +580,7 @@ Transform:
   m_GameObject: {fileID: 604589819}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0.5, z: -3}
+  m_LocalPosition: {x: 0, y: 0.5, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -598,7 +598,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9f006f4ced17646b0adc2036650d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverAmount: 1.6
+  outlineMaterial: {fileID: 2100000, guid: d44cbbe152fcd0e44b1345b256d24624, type: 2}
 --- !u!1 &629021262
 GameObject:
   m_ObjectHideFlags: 0
@@ -631,7 +631,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9f006f4ced17646b0adc2036650d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverAmount: 1.6
+  outlineMaterial: {fileID: 2100000, guid: d44cbbe152fcd0e44b1345b256d24624, type: 2}
 --- !u!65 &629021264
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -712,7 +712,7 @@ Transform:
   m_GameObject: {fileID: 629021262}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: 0.5, z: -0.5}
+  m_LocalPosition: {x: 4, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -729,6 +729,7 @@ GameObject:
   - component: {fileID: 638418079}
   - component: {fileID: 638418078}
   - component: {fileID: 638418077}
+  - component: {fileID: 638418080}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -803,13 +804,29 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 638418076}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.59735304, y: 0.27642357, z: -0.2303805, w: -0.7167177}
-  m_LocalPosition: {x: 1.1762075, y: 10.156073, z: -2.2521923}
+  m_LocalRotation: {x: -0.42054313, y: 0.5405407, z: -0.3582635, w: -0.6345129}
+  m_LocalPosition: {x: 5.0413756, y: 10.532595, z: -2.1742265}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &638418080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 638418076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c49b4cc203aa6414fae5c798d1d0e7d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EventMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_MaxRayIntersections: 0
 --- !u!1 &656551295
 GameObject:
   m_ObjectHideFlags: 0
@@ -842,7 +859,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9f006f4ced17646b0adc2036650d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverAmount: 1.6
+  outlineMaterial: {fileID: 2100000, guid: d44cbbe152fcd0e44b1345b256d24624, type: 2}
 --- !u!65 &656551297
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -923,7 +940,7 @@ Transform:
   m_GameObject: {fileID: 656551295}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: 0.5, z: 0.75}
+  m_LocalPosition: {x: 4, y: 0.5, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1029,7 +1046,7 @@ Transform:
   m_GameObject: {fileID: 667059633}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0.5, z: -0.5}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1047,7 +1064,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9f006f4ced17646b0adc2036650d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverAmount: 1.6
+  outlineMaterial: {fileID: 2100000, guid: d44cbbe152fcd0e44b1345b256d24624, type: 2}
 --- !u!1 &695570175
 GameObject:
   m_ObjectHideFlags: 0
@@ -1080,7 +1097,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9f006f4ced17646b0adc2036650d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverAmount: 1.6
+  outlineMaterial: {fileID: 2100000, guid: d44cbbe152fcd0e44b1345b256d24624, type: 2}
 --- !u!65 &695570177
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1161,7 +1178,7 @@ Transform:
   m_GameObject: {fileID: 695570175}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: 0.5, z: -1.75}
+  m_LocalPosition: {x: 4, y: 0.5, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1267,7 +1284,7 @@ Transform:
   m_GameObject: {fileID: 713253440}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3, y: 0.5, z: 0.75}
+  m_LocalPosition: {x: -4, y: 0.5, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1285,7 +1302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9f006f4ced17646b0adc2036650d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverAmount: 1.6
+  outlineMaterial: {fileID: 2100000, guid: d44cbbe152fcd0e44b1345b256d24624, type: 2}
 --- !u!1 &875698889
 GameObject:
   m_ObjectHideFlags: 0
@@ -1386,7 +1403,7 @@ Transform:
   m_GameObject: {fileID: 875698889}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.75, y: 0.5, z: -0.5}
+  m_LocalPosition: {x: -2, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1404,7 +1421,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9f006f4ced17646b0adc2036650d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverAmount: 1.6
+  outlineMaterial: {fileID: 2100000, guid: d44cbbe152fcd0e44b1345b256d24624, type: 2}
 --- !u!1 &983044823
 GameObject:
   m_ObjectHideFlags: 0
@@ -1437,7 +1454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9f006f4ced17646b0adc2036650d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverAmount: 1.6
+  outlineMaterial: {fileID: 2100000, guid: d44cbbe152fcd0e44b1345b256d24624, type: 2}
 --- !u!65 &983044825
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1518,7 +1535,7 @@ Transform:
   m_GameObject: {fileID: 983044823}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.75, y: 0.5, z: 0.75}
+  m_LocalPosition: {x: 2, y: 0.5, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1624,7 +1641,7 @@ Transform:
   m_GameObject: {fileID: 984102011}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0.5, z: -1.75}
+  m_LocalPosition: {x: 0, y: 0.5, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1642,7 +1659,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9f006f4ced17646b0adc2036650d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverAmount: 1.6
+  outlineMaterial: {fileID: 2100000, guid: d44cbbe152fcd0e44b1345b256d24624, type: 2}
 --- !u!1 &1059021069
 GameObject:
   m_ObjectHideFlags: 0
@@ -1675,7 +1692,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9f006f4ced17646b0adc2036650d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverAmount: 1.6
+  outlineMaterial: {fileID: 2100000, guid: d44cbbe152fcd0e44b1345b256d24624, type: 2}
 --- !u!65 &1059021071
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1756,7 +1773,7 @@ Transform:
   m_GameObject: {fileID: 1059021069}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.75, y: 0.5, z: -0.5}
+  m_LocalPosition: {x: 2, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1862,7 +1879,7 @@ Transform:
   m_GameObject: {fileID: 1072489583}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0.5, z: 0.75}
+  m_LocalPosition: {x: 0, y: 0.5, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1880,7 +1897,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9f006f4ced17646b0adc2036650d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverAmount: 1.6
+  outlineMaterial: {fileID: 2100000, guid: d44cbbe152fcd0e44b1345b256d24624, type: 2}
 --- !u!1 &1117435151
 GameObject:
   m_ObjectHideFlags: 0
@@ -1981,7 +1998,7 @@ Transform:
   m_GameObject: {fileID: 1117435151}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3, y: 0.5, z: -3}
+  m_LocalPosition: {x: -4, y: 0.5, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1999,7 +2016,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9f006f4ced17646b0adc2036650d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverAmount: 10
+  outlineMaterial: {fileID: 2100000, guid: d44cbbe152fcd0e44b1345b256d24624, type: 2}
 --- !u!1 &1338176678
 GameObject:
   m_ObjectHideFlags: 0
@@ -2100,7 +2117,7 @@ Transform:
   m_GameObject: {fileID: 1338176678}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.75, y: 0.5, z: 0.75}
+  m_LocalPosition: {x: -2, y: 0.5, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2118,7 +2135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9f006f4ced17646b0adc2036650d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverAmount: 1.6
+  outlineMaterial: {fileID: 2100000, guid: d44cbbe152fcd0e44b1345b256d24624, type: 2}
 --- !u!1 &1382091037
 GameObject:
   m_ObjectHideFlags: 0
@@ -2219,7 +2236,7 @@ Transform:
   m_GameObject: {fileID: 1382091037}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3, y: 0.5, z: -1.75}
+  m_LocalPosition: {x: -4, y: 0.5, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2237,7 +2254,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9f006f4ced17646b0adc2036650d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverAmount: 1.6
+  outlineMaterial: {fileID: 2100000, guid: d44cbbe152fcd0e44b1345b256d24624, type: 2}
 --- !u!1 &1450998974
 GameObject:
   m_ObjectHideFlags: 0
@@ -2338,7 +2355,7 @@ Transform:
   m_GameObject: {fileID: 1450998974}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.75, y: 0.5, z: -3}
+  m_LocalPosition: {x: -2, y: 0.5, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2356,7 +2373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9f006f4ced17646b0adc2036650d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverAmount: 1.6
+  outlineMaterial: {fileID: 2100000, guid: d44cbbe152fcd0e44b1345b256d24624, type: 2}
 --- !u!1 &1495158422
 GameObject:
   m_ObjectHideFlags: 0
@@ -2389,7 +2406,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9f006f4ced17646b0adc2036650d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverAmount: 1.6
+  outlineMaterial: {fileID: 2100000, guid: d44cbbe152fcd0e44b1345b256d24624, type: 2}
 --- !u!65 &1495158424
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2470,7 +2487,7 @@ Transform:
   m_GameObject: {fileID: 1495158422}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: 0.5, z: -3}
+  m_LocalPosition: {x: 4, y: 0.5, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2576,7 +2593,7 @@ Transform:
   m_GameObject: {fileID: 1520624674}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.75, y: 0.5, z: -1.75}
+  m_LocalPosition: {x: -2, y: 0.5, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2594,7 +2611,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9f006f4ced17646b0adc2036650d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverAmount: 1.6
+  outlineMaterial: {fileID: 2100000, guid: d44cbbe152fcd0e44b1345b256d24624, type: 2}
 --- !u!1 &1528349937
 GameObject:
   m_ObjectHideFlags: 0
@@ -2807,7 +2824,7 @@ Transform:
   m_GameObject: {fileID: 1643112967}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0.5, z: 2}
+  m_LocalPosition: {x: 0, y: 0.5, z: 4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2825,7 +2842,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9f006f4ced17646b0adc2036650d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverAmount: 1.6
+  outlineMaterial: {fileID: 2100000, guid: d44cbbe152fcd0e44b1345b256d24624, type: 2}
 --- !u!1 &1733103814
 GameObject:
   m_ObjectHideFlags: 0
@@ -2926,7 +2943,7 @@ Transform:
   m_GameObject: {fileID: 1733103814}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3, y: 0.5, z: -0.5}
+  m_LocalPosition: {x: -4, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2944,7 +2961,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9f006f4ced17646b0adc2036650d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverAmount: 1.6
+  outlineMaterial: {fileID: 2100000, guid: d44cbbe152fcd0e44b1345b256d24624, type: 2}
 --- !u!1 &1868683551
 GameObject:
   m_ObjectHideFlags: 0
@@ -2977,7 +2994,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9f006f4ced17646b0adc2036650d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverAmount: 1.6
+  outlineMaterial: {fileID: 2100000, guid: d44cbbe152fcd0e44b1345b256d24624, type: 2}
 --- !u!65 &1868683553
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3058,7 +3075,7 @@ Transform:
   m_GameObject: {fileID: 1868683551}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.75, y: 0.5, z: 2}
+  m_LocalPosition: {x: 2, y: 0.5, z: 4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3202,7 +3219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9f006f4ced17646b0adc2036650d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverAmount: 1.6
+  outlineMaterial: {fileID: 2100000, guid: d44cbbe152fcd0e44b1345b256d24624, type: 2}
 --- !u!65 &1964402725
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3283,7 +3300,7 @@ Transform:
   m_GameObject: {fileID: 1964402723}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.75, y: 0.5, z: -3}
+  m_LocalPosition: {x: 2, y: 0.5, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3389,7 +3406,7 @@ Transform:
   m_GameObject: {fileID: 2090731913}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.75, y: 0.5, z: 2}
+  m_LocalPosition: {x: -2, y: 0.5, z: 4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3407,7 +3424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9f006f4ced17646b0adc2036650d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverAmount: 1.6
+  outlineMaterial: {fileID: 2100000, guid: d44cbbe152fcd0e44b1345b256d24624, type: 2}
 --- !u!1 &2097064959
 GameObject:
   m_ObjectHideFlags: 0
