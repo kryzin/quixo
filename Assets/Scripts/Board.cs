@@ -13,12 +13,13 @@ public class Board : MonoBehaviour
     public GameObject cubePrefab;
     private bool winner;
 
+    public Cube selectedCube;
+
     void Start()
     {
         // set board to be empty
         playerTurn = true;
         isEnd = false;
-        SetUpBoard();
     }
 
     void Update()
@@ -31,7 +32,12 @@ public class Board : MonoBehaviour
         }
     }
 
-    private void IsGameOver()
+    public void SelectCube(Cube cube)
+    {
+        selectedCube = cube;
+    }
+
+    void IsGameOver()
     {
         // also add maybe a list/dictionary that saves winning f.e. winning = [(row, 0, symbol), (column, 3, symbol)] 
         // means that both row 0 and column 3 are full of the same symbols

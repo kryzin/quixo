@@ -13,6 +13,7 @@ public class SelectCube : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
     private float hoverSpeed = 2f;
     private Vector3 initialPosition;
     private bool isHovering = false;
+    private bool isSelected = false;
 
     // for highlighting 
     private Material originalMaterial;
@@ -36,13 +37,16 @@ public class SelectCube : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
     {
         Debug.Log("Pointer Click " + cube.gameObject.name);
         // track Pointer events only if the Cube is interactable
+        if (IsAllowedToMove())
+        {
+            isSelected = true;
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData) // when you hover over object
     {
         Debug.Log("Pointer Enter " + cube.gameObject.name + " at ");
         // track Pointer events only if the Cube is interactable
-        // only if at y=0 or y=4 or x=0 or x=4 AND symbol = empty or playerTurn
         if (IsAllowedToMove())
         {
             isHovering = true;
@@ -53,12 +57,19 @@ public class SelectCube : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
     {
         //Debug.Log("Pointer Exit " + gameObject.name);
         // track Pointer events only if the Cube is interactable
-        isHovering = false;
+        if (!isSelected)
+        {
+            isHovering = false;
+        }
     }
 
     void Update()
     {
-        if (isHovering)
+        if (isSelected)
+        {
+            Selected();
+        }
+        else if (isHovering)
         {
             Hover();
         }
@@ -81,6 +92,12 @@ public class SelectCube : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
         transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * hoverSpeed);
         isHovering = false;
         renderer.material = originalMaterial;
+    }
+
+    void Selected()
+    {
+        board.SelectCube(cube);
+        Debug.Log("Selected Cube: " + cube.name);
     }
 
     bool IsAllowedToMove()
