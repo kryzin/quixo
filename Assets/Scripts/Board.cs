@@ -13,12 +13,9 @@ public class Board : MonoBehaviour
     public GameObject cubePrefab;
     private bool winner;
 
-    public Cube selectedCube;
-
     void Start()
     {
         // set board to be empty
-        playerTurn = true;
         isEnd = false;
     }
 
@@ -30,11 +27,6 @@ public class Board : MonoBehaviour
         {
             Debug.Log("GameOver, Winner: " + winner);
         }
-    }
-
-    public void SelectCube(Cube cube)
-    {
-        selectedCube = cube;
     }
 
     void IsGameOver()
@@ -89,14 +81,14 @@ public class Board : MonoBehaviour
         }
     }
 
-    void SetUpBoard ()
+    public void SetUpBoard ()
     {
         for (int i = 0; i < board.GetLength(0); i++)
         {
             for (int j = 0; j < board.GetLength(1); j++)
             {
                 string cubeName = "Cube" + (char)('A' + i * 5 + j);
-                Cube cube = new GameObject(cubeName).AddComponent<Cube>();
+                Cube cube = GameObject.Find(cubeName)?.GetComponent<Cube>();
 
                 cube.symbol = "";
                 cube.boardX = i;
