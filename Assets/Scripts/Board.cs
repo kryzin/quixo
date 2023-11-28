@@ -99,4 +99,34 @@ public class Board : MonoBehaviour
             }
         }
     }
+
+    public Cube GetCubeAt(int x, int y)
+    {
+        if (x >= 0 && x < board.GetLength(0) && y >= 0 && y < board.GetLength(1))
+        {
+            return board[x, y];
+        }
+        else
+        {
+            Debug.LogError($"Invalid indices: ({x}, {y})");
+            return null;
+        }
+    }
+
+    public void MoveOnBoard(Cube previousCube, Cube movingCube)
+    {
+        Debug.LogError("moveonboard");
+        Cube helpCube = movingCube;
+        board[movingCube.boardX, movingCube.boardY] = previousCube;
+        board[previousCube.boardX, previousCube.boardY] = helpCube;
+
+        int helpX = movingCube.boardX;
+        int helpY = movingCube.boardY;
+        movingCube.boardX = previousCube.boardX;
+        movingCube.boardY = previousCube.boardY;
+        previousCube.boardX = helpX;
+        previousCube.boardY = helpY;
+
+        Debug.Log("Made Move: from [" +movingCube.boardX+","+movingCube.boardY+"] to [ " +previousCube.boardX+ ", " +previousCube.boardY+ " ]");
+    }
 }

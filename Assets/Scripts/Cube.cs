@@ -12,27 +12,34 @@ public class Cube : MonoBehaviour
     public GameManager gameManager;
 
     // for lifting up/down
-    private float hoverAmount = 0.6f;
+    private float hoverAmount = 0.4f;
     private float hoverSpeed = 2f;
     private Vector3 initialPosition;
     private bool isHovering = false;
     public bool isSelected = false;
+    public bool isPossiblePlacement = false;
+    public bool dontTouch = false;
 
     // for highlighting 
-    private Material originalMaterial;
-    public Material outlineMaterial;
-    private Renderer cubeRenderer;
+    //private Material originalMaterial;
+    //public Material outlineMaterial;
+    private Color hoverColor = Color.red;
+    private Color originalColor;
+    private SpriteRenderer cubeRenderer;
+
+    private Coroutine selecting;
 
     void Start()
     {
         initialPosition = transform.position;
-        cubeRenderer = GetComponent<Renderer>();
+        cubeRenderer = GetComponent<SpriteRenderer>();
         if (cubeRenderer != null )
         {
             Debug.Log("found renderer");
         }
 
-        originalMaterial = cubeRenderer.material;
+        //originalMaterial = cubeRenderer.material;
+        originalColor = cubeRenderer.color;
     }
 
     void Update()
@@ -41,23 +48,33 @@ public class Cube : MonoBehaviour
         {
             if (isHovering)
             {
-                Hover();
+                Hover(this);
             }
             else
             {
-                ResetPosition(this);
+                if(!dontTouch) ResetPosition(this);
             }
         }
-        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
+        if (Input.GetMouseButtonDown(0)) // dismiss selection if clicked outside Cube objects
         {
-            if (gameManager.selectedCube != null)
+            //also reset placement selection-------------------------------------------------------------------------------------
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
+
+            if (hit.collider == null || !hit.collider.CompareTag("Piece") && !EventSystem.current.IsPointerOverGameObject())
             {
-                gameManager.selectedCube.isSelected = false;
-                ResetPosition(gameManager.selectedCube);
-                gameManager.DeselectCube();
+                StopAllCoroutines();
+                isSelected = false;
+                ResetSelected(this);
+                if (gameManager.selectedCube != null)
+                {
+                    gameManager.DeselectCube();
+                    isSelected = false;
+                }
             }
         }
     }
+
 
     public bool IsAllowedToMove()
     {
@@ -74,19 +91,26 @@ public class Cube : MonoBehaviour
     public void OnMouseDown()
     {
         Debug.Log("Mouse Clicked on " + gameObject.name);
+        if (isPossiblePlacement) // if chose Cube and chose where to put it
+        {
+            Debug.LogError("starting placement");
+            gameManager.SetPlaceCube(this); 
+            gameManager.MakeMove();
+            gameManager.ClearPlacementHighlight();
+        }
         // track only if the Cube is interactable
-
-
-        if (IsAllowedToMove())
+        else if (IsAllowedToMove())
         {
             if (gameManager.selectedCube != null && gameManager.selectedCube != this)
             {
+                
                 gameManager.selectedCube.isSelected = false;
-                ResetPosition(gameManager.selectedCube);
+                ResetSelected(gameManager.selectedCube);
+                gameManager.DeselectCube();
             }
             gameManager.SelectCube(this);
             isSelected = true;
-            Select();
+            Select(this);
         }
     }
 
@@ -94,7 +118,7 @@ public class Cube : MonoBehaviour
     {
         Debug.Log("Mouse Enter " + gameObject.name);
         // track only if the Cube is interactable
-        if (IsAllowedToMove())
+        if (IsAllowedToMove() && !isPossiblePlacement)
         {
             isHovering = true;
         }
@@ -108,32 +132,43 @@ public class Cube : MonoBehaviour
         }
     }
 
-    void Hover()
+    void Hover(Cube cube)
     {
-        Vector3 targetPosition = new Vector3(initialPosition.x, initialPosition.y + hoverAmount, initialPosition.z);
-        transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * hoverSpeed);
+        Vector3 targetPosition = new Vector3(cube.initialPosition.x, cube.initialPosition.y + hoverAmount, cube.initialPosition.z);
+        cube.transform.position = Vector3.Lerp(cube.transform.position, targetPosition, Time.deltaTime * hoverSpeed);
     }
 
     void ResetPosition(Cube cube)
     {
-        if (cube.transform.position != cube.initialPosition) { }
-        StartCoroutine(ResetPositionCoroutine(cube));
+
         cube.isHovering = false;
         cube.isSelected = false;
-        //Vector3 targetPosition = new Vector3(initialPosition.x, initialPosition.y, initialPosition.z);
-        //transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * hoverSpeed);
-        cube.cubeRenderer.material = originalMaterial;
+        Vector3 targetPosition = new Vector3(cube.initialPosition.x, cube.initialPosition.y, cube.initialPosition.z);
+        cube.transform.position = Vector3.Lerp(cube.transform.position, targetPosition, Time.deltaTime * hoverSpeed);
+
     }
 
-    public IEnumerator ResetPositionCoroutine(Cube cube)
+    void Select(Cube cube)
+    {
+        gameManager.SelectCube(cube);
+        Debug.Log("Selected Cube: " + cube.name);
+        selecting = StartCoroutine(SelectCoroutine(cube));
+        //Vector3 targetPosition = new Vector3(cube.initialPosition.x, cube.initialPosition.y + hoverAmount + 1f, cube.initialPosition.z);
+        //cube.transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * hoverSpeed);
+        //cube.cubeRenderer.material = cube.outlineMaterial;
+        cube.cubeRenderer.color = hoverColor;
+        gameManager.ShowMoves(cube);
+    }
+
+    public IEnumerator SelectCoroutine(Cube cube)
     {
         Vector3 currentPosition = cube.transform.position;
-        Vector3 targetPosition = cube.initialPosition;
+        Vector3 targetPosition = new Vector3(cube.initialPosition.x, cube.initialPosition.y + hoverAmount + 0.7f, cube.initialPosition.z);
 
         float elapsedTime = 0f;
-        float duration = 1f;
+        float duration = 0.6f;
 
-        while ( elapsedTime < duration)
+        while (elapsedTime < duration)
         {
             cube.transform.position = Vector3.Lerp(currentPosition, targetPosition, elapsedTime / duration);
             elapsedTime += Time.deltaTime;
@@ -143,12 +178,54 @@ public class Cube : MonoBehaviour
         cube.transform.position = targetPosition;
     }
 
-    void Select()
+    void ResetSelected(Cube cube)
     {
-        gameManager.SelectCube(this);
-        Debug.Log("Selected Cube: " + gameObject.name);
-        Vector3 targetPosition = new Vector3(initialPosition.x, initialPosition.y + hoverAmount + 20f, initialPosition.z);
-        transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * hoverSpeed);
-        cubeRenderer.material = outlineMaterial;
+        gameManager.DeselectCube();
+        cube.isSelected = false;
+        cube.isHovering = false;
+
+        Vector3 targetPosition = new Vector3(cube.initialPosition.x, cube.initialPosition.y, cube.initialPosition.z);
+        cube.transform.position = Vector3.Lerp(cube.transform.position, targetPosition, Time.deltaTime * hoverSpeed);
+        //cube.cubeRenderer.material= cube.originalMaterial;
+        cube.cubeRenderer.color = originalColor;
+    }
+
+    public void HighlightSelection()
+    {
+        cubeRenderer.color = Color.green;
+    }
+
+    public void ResetHighlight()
+    {
+        cubeRenderer.color = originalColor;
+        isPossiblePlacement = false;
+    }
+
+    public void Move(int directionX, int directionY)
+    {
+        dontTouch = true;
+        // move current i,j to x+dirX,y+dirY
+        // transform
+        Debug.Log("in moving -----------------------------------------------------");
+
+        if (directionX > 0 || directionY > 0)//+ on x is (1.25, -0.75, 0)
+        {
+            //Vector3 targetPosition = new Vector3(initialPosition.x + 1.25f, initialPosition.y - 0.75f, initialPosition.z);
+            //transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * hoverSpeed);
+            transform.position = initialPosition;
+            transform.Translate(-1.25f, 0.75f, 0);
+            initialPosition = transform.position;
+            Debug.Log("XXX");
+        }
+        if (directionX < 0 || directionY < 0)//- on x is (-1.25, 0.75, 0)
+        {
+            //Vector3 targetPosition = new Vector3(initialPosition.x - 1.25f, initialPosition.y + 0.75f, initialPosition.z);
+            //transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * hoverSpeed);
+            transform.position = initialPosition;
+            transform.Translate(1.25f, -0.75f, 0);
+            initialPosition = transform.position;
+            Debug.Log("YYY");
+        }     
+        dontTouch = false;
     }
 }
