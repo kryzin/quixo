@@ -14,7 +14,7 @@ public class Cube : MonoBehaviour
     // for lifting up/down
     private float hoverAmount = 0.4f;
     private float hoverSpeed = 2f;
-    private Vector3 initialPosition;
+    public Vector3 initialPosition;
     private bool isHovering = false;
     public bool isSelected = false;
     public bool isPossiblePlacement = false;
@@ -25,7 +25,7 @@ public class Cube : MonoBehaviour
     //public Material outlineMaterial;
     private Color hoverColor = Color.red;
     private Color originalColor;
-    private SpriteRenderer cubeRenderer;
+    public SpriteRenderer cubeRenderer;
 
     private Coroutine selecting;
 
@@ -116,7 +116,6 @@ public class Cube : MonoBehaviour
 
     public void OnMouseEnter()
     {
-        Debug.Log("Mouse Enter " + gameObject.name);
         // track only if the Cube is interactable
         if (IsAllowedToMove() && !isPossiblePlacement)
         {
@@ -201,31 +200,16 @@ public class Cube : MonoBehaviour
         isPossiblePlacement = false;
     }
 
-    public void Move(int directionX, int directionY)
+    public void Move(int directionX, int directionY, int repeat)
     {
         dontTouch = true;
-        // move current i,j to x+dirX,y+dirY
-        // transform
-        Debug.Log("in moving -----------------------------------------------------");
 
-        if (directionX > 0 || directionY > 0)//+ on x is (1.25, -0.75, 0)
-        {
-            //Vector3 targetPosition = new Vector3(initialPosition.x + 1.25f, initialPosition.y - 0.75f, initialPosition.z);
-            //transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * hoverSpeed);
-            transform.position = initialPosition;
-            transform.Translate(-1.25f, 0.75f, 0);
-            initialPosition = transform.position;
-            Debug.Log("XXX");
-        }
-        if (directionX < 0 || directionY < 0)//- on x is (-1.25, 0.75, 0)
-        {
-            //Vector3 targetPosition = new Vector3(initialPosition.x - 1.25f, initialPosition.y + 0.75f, initialPosition.z);
-            //transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * hoverSpeed);
-            transform.position = initialPosition;
-            transform.Translate(1.25f, -0.75f, 0);
-            initialPosition = transform.position;
-            Debug.Log("YYY");
-        }     
+        // move current i,j to x+dirX,y+dirY
+        transform.position = initialPosition;
+        transform.Translate(1.25f * directionX * repeat, 0.75f * directionY * repeat, 0);
+        initialPosition = transform.position;
+        Debug.Log("Made move!" + directionX+directionY+repeat);
+
         dontTouch = false;
     }
 }

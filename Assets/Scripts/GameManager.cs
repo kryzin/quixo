@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -104,75 +105,70 @@ public class GameManager : MonoBehaviour
 
     public void MakeMove()
     {
-        Debug.LogError("also in makemove");
-        int moveY = 0;
-        int moveX = 0;
+        int repeat = 1;
         selectedCube.symbol = currentSymbol;
         // set in board and move the cubes around lol
         if (selectedCube.boardX == placeCube.boardX) // placed in the same row
         {
-            Debug.LogError("X == X");
             if (selectedCube.boardY > placeCube.boardY) // placed on the left of the board - count cols down
             {
-                Cube previousCube = selectedCube;
                 int i = selectedCube.boardY;
                 while (i > 0)
                 {
-                    Debug.Log("selected row bigger");
-                    moveY = -1;
-                    Cube movingCube = board.GetCubeAt(selectedCube.boardX, i + moveY);
-                    board.MoveOnBoard(previousCube, movingCube);
-                    movingCube.Move(moveX, moveY);
+                    Cube movingCube = board.GetCubeAt(selectedCube.boardX, i - 1);
+                    movingCube.Move(1, -1, 1);
                     i--;
                 }
+                repeat = selectedCube.boardY - placeCube.boardY;
+                selectedCube.Move(-1, 1, repeat);
+
+                board.MoveOnBoard(true, selectedCube.boardX, false);
             }
             else
             {
-                Debug.LogError("else <");
-                Cube previousCube = selectedCube;
                 int i = selectedCube.boardY;
                 while (i < 4)
                 {
-                    Debug.Log("selected row smaller");
-                    moveY = 1;
-                    Cube movingCube = board.GetCubeAt(selectedCube.boardX, i + moveY);
-                    board.MoveOnBoard(previousCube, movingCube);
-                    movingCube.Move(moveX, moveY);
+                    Cube movingCube = board.GetCubeAt(selectedCube.boardX, i + 1);
+                    movingCube.Move(-1, 1, 1);
                     i++;
                 }
+                repeat = placeCube.boardY - selectedCube.boardY;
+                selectedCube.Move(1, -1, repeat);
+
+                board.MoveOnBoard(true, selectedCube.boardX, true);
             }
         }
         else if (selectedCube.boardY == placeCube.boardY)
         {
-            Debug.LogError("Y == Y");
             if (selectedCube.boardX > placeCube.boardX) // placed on the left of the board - count cols down
             {
-                Cube previousCube = selectedCube;
                 int i = selectedCube.boardX;
                 while (i > 0)
                 {
-                    Debug.Log("selected col bigger");
-                    moveX = -1;
-                    Cube movingCube = board.GetCubeAt(i + moveX, selectedCube.boardY);
-                    board.MoveOnBoard(previousCube, movingCube);
-                    movingCube.Move(moveX, moveY);
-                    previousCube = movingCube;
+                    Cube movingCube = board.GetCubeAt(i - 1, selectedCube.boardY);
+                    movingCube.Move(-1, -1, 1);
                     i--;
                 }
+                repeat = selectedCube.boardX - placeCube.boardX;
+                Debug.Log("repeat: " + repeat);
+                selectedCube.Move(1, 1, repeat);
+
+                board.MoveOnBoard(false, selectedCube.boardY, true);
             }
             else
             {
-                Cube previousCube = selectedCube;
-                int i = 0;
-                while (i > selectedCube.boardX)
+                int i = selectedCube.boardX;
+                while (i < 4)
                 {
-                    Debug.Log("selected col smaller");
-                    moveX = 1;
-                    Cube movingCube = board.GetCubeAt(i + moveX, selectedCube.boardY);
-                    board.MoveOnBoard(previousCube, movingCube);
-                    movingCube.Move(moveX, moveY);
+                    Cube movingCube = board.GetCubeAt(i + 1, selectedCube.boardY);
+                    movingCube.Move(1, 1, 1);
                     i++;
                 }
+                repeat = placeCube.boardX - selectedCube.boardX;
+                selectedCube.Move(-1, -1, repeat);
+
+                board.MoveOnBoard(false, selectedCube.boardY, false);
             }
         }
         ResetAfterMove();

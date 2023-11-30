@@ -113,20 +113,62 @@ public class Board : MonoBehaviour
         }
     }
 
-    public void MoveOnBoard(Cube previousCube, Cube movingCube)
+    public void MoveOnBoard(bool isRow, int index, bool goingLeft)
     {
-        Debug.LogError("moveonboard");
-        Cube helpCube = movingCube;
-        board[movingCube.boardX, movingCube.boardY] = previousCube;
-        board[previousCube.boardX, previousCube.boardY] = helpCube;
+        // or do (bool isRow, int index, bool left)
+        // and change all at once, f.e. [2,4] -> [2,0] means (true{cause x=x}, 2, false{cause y1>y2})
 
-        int helpX = movingCube.boardX;
-        int helpY = movingCube.boardY;
-        movingCube.boardX = previousCube.boardX;
-        movingCube.boardY = previousCube.boardY;
-        previousCube.boardX = helpX;
-        previousCube.boardY = helpY;
+        if (isRow)
+        {
+            if (goingLeft)//cubes [index,1-4] going left(y-1) and cube [index,0] going to [index,4]
+            {
+                Cube activeCube = board[index, 0];
+                for (int i = 0; i < 4; i++)
+                {
+                    board[index, i] = board[index, i + 1];
+                }
+                board[index, 4] = activeCube;
+            }
+            else//cubes [index,3-0] going right(y+1) and cube [index,4] going to [index,0]
+            {
+                Cube activeCube = board[index, 4];
+                for (int i = 4; i > 0; i--)
+                {
+                    board[index, i] = board[index, i - 1];
+                }
+                board[index, 0] = activeCube;
+            }
+        }
+        else
+        {
+            if (goingLeft)//cubes [3-0,index] going down(x+1) and [4,index] goes to [0,index]
+            {
+                Cube activeCube = board[4, index];
+                for (int i = 4; i > 0; i--)
+                {
+                    board[i, index] = board[i - 1, index];
+                }
+                board[0, index] = activeCube;
+            }
+            else//cubes [4-1,index] go up(x-1) and [0,index] goes to [4,index]
+            {
+                Cube activeCube = board[0, index];
+                for (int i = 0; i < 4; i++)
+                {
+                    board[i, index] = board[i + 1, index];
+                }
+                board[4, index] = activeCube;
+            }
+        }
+        for (int i = 0; i <= 4; i++) // updating idexes in Cube attributes
+        {
+            for (int j = 0; j <= 4; j++)
+            {
+                board[i, j].boardX = i;
+                board[i, j].boardY = j;
+                board[i, j].cubeRenderer.sortingOrder = i + j;
+            }
+        }
 
-        Debug.Log("Made Move: from [" +movingCube.boardX+","+movingCube.boardY+"] to [ " +previousCube.boardX+ ", " +previousCube.boardY+ " ]");
     }
 }
