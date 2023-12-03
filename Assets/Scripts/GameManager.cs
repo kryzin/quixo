@@ -65,7 +65,6 @@ public class GameManager : MonoBehaviour
     public void ShowMoves(Cube cube)
     {
         
-
         //input: cube
         //output: highlight where we can put the selected cube
         int row = cube.boardX;

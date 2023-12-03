@@ -210,12 +210,14 @@ public class Cube : MonoBehaviour
         transform.Translate(1.25f * directionX * repeat, 0.75f * directionY * repeat, 0, Space.World);
         initialPosition = transform.position;
 
-        if (rotate && gameManager.currentPlayer == GameManager.Symbol.X)
+        if (rotate && gameManager.currentPlayer == GameManager.Symbol.X && symbol == GameManager.Symbol.Null)
         {
+            Debug.Log("rotating - " + this.name);
             transform.Rotate(0, 0, -120f);
         }
-        if (rotate && gameManager.currentPlayer == GameManager.Symbol.O)
+        if (rotate && gameManager.currentPlayer == GameManager.Symbol.O && symbol == GameManager.Symbol.Null)
         {
+            Debug.Log("rotating + " + this.name);
             transform.Rotate(0, 0, 120f);
         }
         
