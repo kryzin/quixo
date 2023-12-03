@@ -5,9 +5,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public enum Symbol { X, O };
+    public enum Symbol { Null, X, O };
     public Symbol currentPlayer;
-    public string currentSymbol = "X";
     public Board board;
 
     public Cube selectedCube;
@@ -20,7 +19,6 @@ public class GameManager : MonoBehaviour
         Debug.Log("X starts the game");
         board.SetUpBoard();
         currentPlayer = Symbol.X;
-        currentSymbol = currentPlayer.ToString();
     }
 
     void Update()
@@ -37,7 +35,6 @@ public class GameManager : MonoBehaviour
     public void SetPlaceCube(Cube cube)
     {
         placeCube = cube;
-        Debug.LogError("setplacecube " + cube.name);
     }
 
     public void UnsetPlaceCube()
@@ -52,6 +49,17 @@ public class GameManager : MonoBehaviour
         selectedCube = null;
         ClearPlacementHighlight();
         possibleMove.Clear();
+    }
+
+    public void SwitchTurn()
+    {
+        if (currentPlayer == Symbol.X)
+        {
+            currentPlayer = Symbol.O;
+        }
+        else currentPlayer = Symbol.X;
+
+
     }
 
     public void ShowMoves(Cube cube)
@@ -106,7 +114,6 @@ public class GameManager : MonoBehaviour
     public void MakeMove()
     {
         int repeat = 1;
-        selectedCube.symbol = currentSymbol;
         // set in board and move the cubes around lol
         if (selectedCube.boardX == placeCube.boardX) // placed in the same row
         {
@@ -116,13 +123,13 @@ public class GameManager : MonoBehaviour
                 while (i > 0)
                 {
                     Cube movingCube = board.GetCubeAt(selectedCube.boardX, i - 1);
-                    movingCube.Move(1, -1, 1);
+                    movingCube.Move(1, -1, 1, false);
                     i--;
                 }
                 repeat = selectedCube.boardY - placeCube.boardY;
-                selectedCube.Move(-1, 1, repeat);
+                selectedCube.Move(-1, 1, repeat, true);
 
-                board.MoveOnBoard(true, selectedCube.boardX, false);
+                board.MoveOnBoard(true, selectedCube.boardX, selectedCube.boardY, false);
             }
             else
             {
@@ -130,13 +137,13 @@ public class GameManager : MonoBehaviour
                 while (i < 4)
                 {
                     Cube movingCube = board.GetCubeAt(selectedCube.boardX, i + 1);
-                    movingCube.Move(-1, 1, 1);
+                    movingCube.Move(-1, 1, 1, false);
                     i++;
                 }
                 repeat = placeCube.boardY - selectedCube.boardY;
-                selectedCube.Move(1, -1, repeat);
+                selectedCube.Move(1, -1, repeat, true);
 
-                board.MoveOnBoard(true, selectedCube.boardX, true);
+                board.MoveOnBoard(true, selectedCube.boardX, selectedCube.boardY, true);
             }
         }
         else if (selectedCube.boardY == placeCube.boardY)
@@ -147,14 +154,13 @@ public class GameManager : MonoBehaviour
                 while (i > 0)
                 {
                     Cube movingCube = board.GetCubeAt(i - 1, selectedCube.boardY);
-                    movingCube.Move(-1, -1, 1);
+                    movingCube.Move(-1, -1, 1, false);
                     i--;
                 }
                 repeat = selectedCube.boardX - placeCube.boardX;
-                Debug.Log("repeat: " + repeat);
-                selectedCube.Move(1, 1, repeat);
+                selectedCube.Move(1, 1, repeat, true);
 
-                board.MoveOnBoard(false, selectedCube.boardY, true);
+                board.MoveOnBoard(false, selectedCube.boardX, selectedCube.boardY, true);
             }
             else
             {
@@ -162,16 +168,19 @@ public class GameManager : MonoBehaviour
                 while (i < 4)
                 {
                     Cube movingCube = board.GetCubeAt(i + 1, selectedCube.boardY);
-                    movingCube.Move(1, 1, 1);
+                    movingCube.Move(1, 1, 1, false);
                     i++;
                 }
                 repeat = placeCube.boardX - selectedCube.boardX;
-                selectedCube.Move(-1, -1, repeat);
+                selectedCube.Move(-1, -1, repeat, true);
 
-                board.MoveOnBoard(false, selectedCube.boardY, false);
+                board.MoveOnBoard(false, selectedCube.boardX, selectedCube.boardY, false);
             }
         }
+        selectedCube.symbol = currentPlayer;
+        selectedCube.isSelected = false;
         ResetAfterMove();
+        SwitchTurn();
     }
 
     public void ResetAfterMove()

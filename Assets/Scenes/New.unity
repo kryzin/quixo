@@ -436,9 +436,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   k: 0
-  playerTurn: 0
   isEnd: 0
-  cubePrefab: {fileID: 0}
+  gameManager: {fileID: 1929187991}
 --- !u!4 &178531973
 Transform:
   m_ObjectHideFlags: 0
@@ -470,6 +469,18 @@ PrefabInstance:
       propertyPath: gameManager
       value: 
       objectReference: {fileID: 1929187991}
+    - target: {fileID: 7700362021493296007, guid: d6ba732f8273ade4f87fca21458ad4bc, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7700362021493296007, guid: d6ba732f8273ade4f87fca21458ad4bc, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7700362021493296007, guid: d6ba732f8273ade4f87fca21458ad4bc, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7700362021493296007, guid: d6ba732f8273ade4f87fca21458ad4bc, type: 3}
       propertyPath: m_SortingOrder
       value: 3
@@ -761,6 +772,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &810029870 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 7700362021493296007, guid: d6ba732f8273ade4f87fca21458ad4bc, type: 3}
+  m_PrefabInstance: {fileID: 1153478166}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &824017803
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1203,6 +1219,10 @@ PrefabInstance:
       propertyPath: gameManager
       value: 
       objectReference: {fileID: 1929187991}
+    - target: {fileID: 283521269792655133, guid: d6ba732f8273ade4f87fca21458ad4bc, type: 3}
+      propertyPath: cubeRenderer
+      value: 
+      objectReference: {fileID: 810029870}
     - target: {fileID: 7700362021493296007, guid: d6ba732f8273ade4f87fca21458ad4bc, type: 3}
       propertyPath: m_SortingOrder
       value: 6
@@ -2052,7 +2072,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentPlayer: 0
-  currentSymbol: X
   board: {fileID: 178531972}
   selectedCube: {fileID: 0}
   placeCube: {fileID: 0}

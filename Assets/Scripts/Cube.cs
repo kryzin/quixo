@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class Cube : MonoBehaviour
 {
-    public string symbol = ""; // symbol is O or X, blank at the begging
+    public GameManager.Symbol symbol; // symbol is O or X, blank at the begging
     public int boardX;
     public int boardY;
     public GameManager gameManager;
@@ -63,7 +63,10 @@ public class Cube : MonoBehaviour
 
             if (hit.collider == null || !hit.collider.CompareTag("Piece") && !EventSystem.current.IsPointerOverGameObject())
             {
-                StopAllCoroutines();
+                if ( selecting != null)
+                {
+                    StopCoroutine(selecting);
+                }
                 isSelected = false;
                 ResetSelected(this);
                 if (gameManager.selectedCube != null)
@@ -80,7 +83,7 @@ public class Cube : MonoBehaviour
     {
         if (boardX == 0 || boardX == 4 || boardY == 0 || boardY == 4)
         {
-            if (symbol == "" || symbol == gameManager.currentSymbol)
+            if (symbol == GameManager.Symbol.Null || symbol == gameManager.currentPlayer)
             {
                 return true;
             }
@@ -93,7 +96,6 @@ public class Cube : MonoBehaviour
         Debug.Log("Mouse Clicked on " + gameObject.name);
         if (isPossiblePlacement) // if chose Cube and chose where to put it
         {
-            Debug.LogError("starting placement");
             gameManager.SetPlaceCube(this); 
             gameManager.MakeMove();
             gameManager.ClearPlacementHighlight();
@@ -200,14 +202,24 @@ public class Cube : MonoBehaviour
         isPossiblePlacement = false;
     }
 
-    public void Move(int directionX, int directionY, int repeat)
+    public void Move(int directionX, int directionY, int repeat, bool rotate)
     {
         dontTouch = true;
 
-        // move current i,j to x+dirX,y+dirY
         transform.position = initialPosition;
-        transform.Translate(1.25f * directionX * repeat, 0.75f * directionY * repeat, 0);
+        transform.Translate(1.25f * directionX * repeat, 0.75f * directionY * repeat, 0, Space.World);
         initialPosition = transform.position;
+
+        if (rotate && gameManager.currentPlayer == GameManager.Symbol.X)
+        {
+            transform.Rotate(0, 0, -120f);
+        }
+        if (rotate && gameManager.currentPlayer == GameManager.Symbol.O)
+        {
+            transform.Rotate(0, 0, 120f);
+        }
+        
+
         Debug.Log("Made move!" + directionX+directionY+repeat);
 
         dontTouch = false;
