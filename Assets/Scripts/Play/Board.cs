@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -10,7 +11,13 @@ public class Board : MonoBehaviour
     public static Cube[,] board = new Cube[5, 5];
     public bool isEnd;
     public GameManager gameManager;
-    private GameManager.Symbol winner;
+    public GameManager.Symbol winner;
+    private bool checkOnce = false;
+    private List<GameManager.Symbol> winSymbols = new List<GameManager.Symbol>
+        {
+            GameManager.Symbol.O,
+            GameManager.Symbol.X
+        };
 
     void Start()
     {
@@ -20,63 +27,95 @@ public class Board : MonoBehaviour
 
     void Update()
     {
+        IsGameOver();
         // maybe limit to checking only after new move
         // IsGameOver(); // checking if anyone won
-        if (isEnd)
+        if (isEnd && !checkOnce)
         {
-            Debug.Log("GameOver, Winner: " + winner);
+            Debug.LogError("GameOver, Winner: " + winner);
+            checkOnce = true;
         }
     }
 
     void IsGameOver()
     {
-        // also add maybe a list/dictionary that saves winning f.e. winning = [(row, 0, symbol), (column, 3, symbol)] 
-        // means that both row 0 and column 3 are full of the same symbols
+        Dictionary<(string, int), GameManager.Symbol> winningLines = new Dictionary<(string, int), GameManager.Symbol>();
         int winning = 0;
         // EDGE CASE: more than one full of different symbols
         // the game is over if any row/column/diagonal is full of the same symbol
-
+        
         // checking all rows and all columns
-        for (int i = 0; i < 5; i++)
+
+        foreach (GameManager.Symbol symbol in winSymbols)
         {
-            int countRows = 0;
-            int countCols = 0;
-            for (int j = 0; j < 5; j++)
+            //check rows and columns
+            for (int i = 0; i < 5; i++)
             {
-                if (board[i, j].symbol == GameManager.Symbol.O) { countRows++; }
-                else { countRows--; }
-
-                if (board[j, i].symbol == GameManager.Symbol.O) { countCols++; }
-                else { countCols--; }
+                int countRow = 0;
+                int countCol = 0;
+                for (int j = 0; j < 5; j++)
+                {
+                    if (board[i,j].symbol == symbol) { countRow++; }
+                    if (board[j,i].symbol == symbol) { countCol++; }
+                }
+                if (countRow == 5)
+                {
+                    winning++;
+                    winningLines.Add(("row", i), symbol);
+                }
+                if (countCol == 5)
+                {
+                    winning++;
+                    winningLines.Add(("column", i), symbol);
+                }
             }
-            if (countRows == 5 || countRows == -5) { winning++; }
-            if (countCols == 5 || countCols == -5) { winning++; }
-        }
 
-        // checking diagonal and anti-diagonal
-        for (int i = 0; i < 5; i++)
-        {
-            int j = 4 - i;
-            int count = 0;
+            // check diagonal
+            int countDia = 0;
+            for (int i = 0; i < 5; i++)
+            {
+                if (board[i,i].symbol == symbol) { countDia++; }
+            }
+            if (countDia == 5)
+            {
+                winning++;
+                winningLines.Add(("diagonal", 1), symbol);
+            }
+
+            // check anti-diagonal
             int countAnti = 0;
-
-            if (board[i, j].symbol == GameManager.Symbol.O) { count++; }
-            else { count--; }
-
-            if (board[i, i].symbol == GameManager.Symbol.O) { countAnti++; }
-            else { countAnti--; }
-
-            if (count == 5 || count == -5) { winning++; }
-            if (countAnti == 5 || countAnti == -5) { winning++; }
+            for (int i = 0; i < 5; i++)
+            {
+                int j = 4 - i;
+                if (board[i, j].symbol == symbol) { countDia++; }
+            }
+            if (countAnti == 5)
+            {
+                winning++;
+                winningLines.Add(("diagonal", 0), symbol);
+            }
         }
 
-        if (winning > 0)
+        if (winning == 1)
         {
             isEnd = true;
-            winner = gameManager.currentPlayer;
-            // add handling the edge case: winning is > 1
-            // if all winning lines symbol == currentPlayer symbol -> this player wins
+            if (gameManager.currentPlayer == GameManager.Symbol.X) { winner = GameManager.Symbol.O; }
+            else { winner = GameManager.Symbol.X; }
+        }
+        else if (winning > 1)
+        {
+            // if all winning lines symbols == currentPlayer symbol -> this player wins
+            GameManager.Symbol sampleSymbol = winningLines.Values.FirstOrDefault();
+            if (winningLines.Values.All(symbol => symbol == sampleSymbol))
+            {
+                if (gameManager.currentPlayer == GameManager.Symbol.X) { winner = GameManager.Symbol.O; }
+                else { winner = GameManager.Symbol.X; }
+            }
             // but if even one line is of opposite symbol -> the opponent wins
+            else
+            {
+                winner = gameManager.currentPlayer;
+            }
         }
     }
 

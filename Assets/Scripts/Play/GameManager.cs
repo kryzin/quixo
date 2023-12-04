@@ -17,8 +17,8 @@ public class GameManager : MonoBehaviour
     {
         possibleMove = new List<int[]>();
         Debug.Log("X starts the game");
-        board.SetUpBoard();
         currentPlayer = Symbol.X;
+        board.SetUpBoard();
     }
 
     void Update()

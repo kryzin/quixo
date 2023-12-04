@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UIElements;
 
 public class Cube : MonoBehaviour
 {
@@ -205,10 +206,7 @@ public class Cube : MonoBehaviour
     public void Move(int directionX, int directionY, int repeat, bool rotate)
     {
         dontTouch = true;
-
-        transform.position = initialPosition;
-        transform.Translate(1.25f * directionX * repeat, 0.75f * directionY * repeat, 0, Space.World);
-        initialPosition = transform.position;
+        StartCoroutine(MoveCoroutine(this, directionX, directionY, repeat));
 
         if (rotate && gameManager.currentPlayer == GameManager.Symbol.X && symbol == GameManager.Symbol.Null)
         {
@@ -225,5 +223,24 @@ public class Cube : MonoBehaviour
         Debug.Log("Made move!" + directionX+directionY+repeat);
 
         dontTouch = false;
+    }
+
+    public IEnumerator MoveCoroutine(Cube cube, int directionX, int directionY, int repeat)
+    {
+        // this should be: first move V3(+1.1f,y,z) and at the end move 1.1f=x down
+        float speed = 2f;
+        Vector3 targetPosition = cube.initialPosition + new Vector3(1.25f * directionX * repeat, 0.75f * directionY * repeat, 0);
+        float duration = 2f;
+        float elapsedTime = 0;
+
+        while (elapsedTime < duration)
+        {
+            cube.transform.position = Vector3.Lerp(cube.initialPosition, targetPosition, elapsedTime / duration);
+            elapsedTime += Time.deltaTime * speed; // Adjust the speed as needed
+
+            yield return null;
+        }
+        cube.transform.position = targetPosition;
+        cube.initialPosition = cube.transform.position;
     }
 }

@@ -13,7 +13,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Text
   - 
   - 
   - 
@@ -45,6 +45,9 @@ TagManager:
     locked: 0
   - name: New Layer 1
     uniqueID: 386478257
+    locked: 0
+  - name: PopUp
+    uniqueID: 3189263315
     locked: 0
   - name: New Layer 2
     uniqueID: 885452675
