@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     public enum Symbol { Null, X, O };
     public Symbol currentPlayer;
     public Board board;
+    public Symbol winner;
+    public UIManager uiManager;
 
     public Cube selectedCube;
     public Cube placeCube;
@@ -24,6 +26,12 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void Win(Symbol player, int i)
+    {
+        winner = player;
+        uiManager.ShowEndPopUp(i);
     }
 
     public void SelectCube(Cube cube)

@@ -7,12 +7,13 @@ using UnityEngine;
 
 public class Board : MonoBehaviour
 {
-    public int k; // for transition between coordinates in board[] and at gameScene
     public static Cube[,] board = new Cube[5, 5];
     public bool isEnd;
     public GameManager gameManager;
     public GameManager.Symbol winner;
     private bool checkOnce = false;
+    public bool lostWin = false;
+    public int countWin = 0;
     private List<GameManager.Symbol> winSymbols = new List<GameManager.Symbol>
         {
             GameManager.Symbol.O,
@@ -21,6 +22,7 @@ public class Board : MonoBehaviour
 
     void Start()
     {
+        countWin = 0;
         // set board to be empty
         isEnd = false;
     }
@@ -34,6 +36,7 @@ public class Board : MonoBehaviour
         {
             Debug.LogError("GameOver, Winner: " + winner);
             checkOnce = true;
+            gameManager.Win(winner, countWin);
         }
     }
 
@@ -115,8 +118,10 @@ public class Board : MonoBehaviour
             else
             {
                 winner = gameManager.currentPlayer;
+                lostWin = true;
             }
         }
+        countWin = winning;
     }
 
     public void SetUpBoard ()
@@ -202,10 +207,9 @@ public class Board : MonoBehaviour
             for (int j = 0; j <= 4; j++)
             {
                 board[i, j].boardX = i;
-                board[i, j].boardY = j;
-                board[i, j].cubeRenderer.sortingOrder = i + j;
+                board[i, j].boardY = j;    
+                if (board[i,j] != gameManager.selectedCube) { board[i, j].cubeRenderer.sortingOrder = i + j; }
             }
         }
-
     }
 }

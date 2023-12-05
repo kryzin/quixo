@@ -16,7 +16,7 @@ public class Cube : MonoBehaviour
     private float hoverAmount = 0.4f;
     private float hoverSpeed = 2f;
     public Vector3 initialPosition;
-    private bool isHovering = false;
+    public bool isHovering = false;
     public bool isSelected = false;
     public bool isPossiblePlacement = false;
     public bool dontTouch = false;
@@ -120,7 +120,7 @@ public class Cube : MonoBehaviour
     public void OnMouseEnter()
     {
         // track only if the Cube is interactable
-        if (IsAllowedToMove() && !isPossiblePlacement)
+        if (IsAllowedToMove() && !isPossiblePlacement && !isSelected)
         {
             isHovering = true;
         }
@@ -153,6 +153,7 @@ public class Cube : MonoBehaviour
     void Select(Cube cube)
     {
         gameManager.SelectCube(cube);
+        cube.isHovering = false;
         Debug.Log("Selected Cube: " + cube.name);
         selecting = StartCoroutine(SelectCoroutine(cube));
         //Vector3 targetPosition = new Vector3(cube.initialPosition.x, cube.initialPosition.y + hoverAmount + 1f, cube.initialPosition.z);
@@ -206,30 +207,19 @@ public class Cube : MonoBehaviour
     public void Move(int directionX, int directionY, int repeat, bool rotate)
     {
         dontTouch = true;
-        StartCoroutine(MoveCoroutine(this, directionX, directionY, repeat));
-
-        if (rotate && gameManager.currentPlayer == GameManager.Symbol.X && symbol == GameManager.Symbol.Null)
+        if (this == gameManager.selectedCube)
         {
-            Debug.Log("rotating - " + this.name);
-            transform.Rotate(0, 0, -120f);
+            StartCoroutine(MoveSelectedCoroutine(this, directionX, directionY, repeat, rotate));
         }
-        if (rotate && gameManager.currentPlayer == GameManager.Symbol.O && symbol == GameManager.Symbol.Null)
-        {
-            Debug.Log("rotating + " + this.name);
-            transform.Rotate(0, 0, 120f);
-        }
-        
-
-        Debug.Log("Made move!" + directionX+directionY+repeat);
-
+        else { StartCoroutine(MoveCoroutine(this, directionX, directionY)); }
         dontTouch = false;
     }
 
-    public IEnumerator MoveCoroutine(Cube cube, int directionX, int directionY, int repeat)
+    public IEnumerator MoveCoroutine(Cube cube, int directionX, int directionY)
     {
         // this should be: first move V3(+1.1f,y,z) and at the end move 1.1f=x down
         float speed = 2f;
-        Vector3 targetPosition = cube.initialPosition + new Vector3(1.25f * directionX * repeat, 0.75f * directionY * repeat, 0);
+        Vector3 targetPosition = cube.initialPosition + new Vector3(1.25f * directionX, 0.75f * directionY, 0);
         float duration = 2f;
         float elapsedTime = 0;
 
@@ -242,5 +232,57 @@ public class Cube : MonoBehaviour
         }
         cube.transform.position = targetPosition;
         cube.initialPosition = cube.transform.position;
+    }
+
+    public IEnumerator MoveSelectedCoroutine(Cube cube, int directionX, int directionY, int repeat, bool rotate)
+    {
+        cube.cubeRenderer.sortingOrder = 8;
+        cube.initialPosition = cube.initialPosition + new Vector3(0, 1.1f, 0);
+
+        if (rotate && gameManager.currentPlayer == GameManager.Symbol.X && symbol == GameManager.Symbol.Null)
+        {
+            Debug.Log("rotating - " + this.name);
+            transform.Rotate(0, 0, -120f);
+        }
+        if (rotate && gameManager.currentPlayer == GameManager.Symbol.O && symbol == GameManager.Symbol.Null)
+        {
+            Debug.Log("rotating + " + this.name);
+            transform.Rotate(0, 0, 120f);
+        }
+
+        float speed = 2f;
+        Vector3 targetPosition = cube.initialPosition + new Vector3(1.25f * directionX * repeat, 0.75f * directionY * repeat, 0);
+        float duration = 2f;
+        float elapsedTime = 0;
+
+        while (elapsedTime < duration)
+        {
+            cube.transform.position = Vector3.Lerp(cube.initialPosition, targetPosition, elapsedTime / duration);
+            elapsedTime += Time.deltaTime * speed;
+
+            yield return null;
+        }
+        cube.transform.position = targetPosition;
+        cube.initialPosition = cube.initialPosition + new Vector3(1.25f * directionX * repeat, 0.75f * directionY * repeat, 0);
+        StartCoroutine(FinishMoveSelectedCoroutine(cube, directionX, directionY));
+    }
+
+    public IEnumerator FinishMoveSelectedCoroutine(Cube cube, int directionX, int directionY)
+    {
+        cube.cubeRenderer.sortingOrder = cube.boardX + cube.boardY;
+        float speed = 2f;
+        Vector3 targetPosition = cube.initialPosition + new Vector3( 0, -1.1f, 0);
+        float duration = 0.5f;
+        float elapsedTime = 0;
+
+        while (elapsedTime < duration)
+        {
+            cube.transform.position = Vector3.Lerp(cube.initialPosition, targetPosition, elapsedTime / duration);
+            elapsedTime += Time.deltaTime * speed;
+
+            yield return null;
+        }
+        cube.transform.position = targetPosition;
+        cube.initialPosition = cube.initialPosition + new Vector3( 0, -1.1f, 0);
     }
 }

@@ -43,12 +43,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: New Layer 1
+  - name: Background
+    uniqueID: 885452675
+    locked: 0
+  - name: Display
+    uniqueID: 994361679
+    locked: 0
+  - name: Game
     uniqueID: 386478257
     locked: 0
   - name: PopUp
     uniqueID: 3189263315
-    locked: 0
-  - name: New Layer 2
-    uniqueID: 885452675
     locked: 0
