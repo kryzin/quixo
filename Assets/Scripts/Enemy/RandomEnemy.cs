@@ -7,6 +7,7 @@ public class RandomEnemy : MonoBehaviour
     public GameManager gameManager;
     public Board board;
     public GameManager.Symbol enemySymbol;
+    public UIManager uiManager;
 
     private List<int[]> availableCubes;
 
@@ -38,7 +39,6 @@ public class RandomEnemy : MonoBehaviour
                 }
             }
         }
-        Debug.LogWarning(availableCubes.Count);
         int chosen = Random.Range(0, availableCubes.Count - 1);
         int[] pair = availableCubes[chosen];
         int x = pair[0];
@@ -47,17 +47,27 @@ public class RandomEnemy : MonoBehaviour
         gameManager.SelectCube(board.GetCubeAt(x, y));
         board.GetCubeAt(x, y).Select(board.GetCubeAt(x, y));
 
-        ChoosePlacement(board.GetCubeAt(x, y));
+        StartCoroutine(DelayChoosePlacement(board.GetCubeAt(x, y)));
+    }
+
+    IEnumerator DelayChoosePlacement(Cube cube)
+    {
+        yield return new WaitForSeconds(0.6f);
+        ChoosePlacement(cube);
     }
 
     public void ChoosePlacement(Cube cube)
     {
-        int chosen = Random.Range(0, gameManager.possibleMove.Count - 1);
-        int x = gameManager.possibleMove[chosen][0];
-        int y = gameManager.possibleMove[chosen][1];
+        List<int[]> moves = gameManager.possibleMove;
+        int chosen = Random.Range(0, moves.Count - 1);
+        int x = moves[chosen][0];
+        int y = moves[chosen][1];
 
         gameManager.SetPlaceCube(board.GetCubeAt(x, y));
         gameManager.MakeMove();
         gameManager.ClearPlacementHighlight();
+
+        uiManager.EnablePause();
+        gameManager.isEnemyMove = false;
     }
 }

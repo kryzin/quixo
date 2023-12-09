@@ -24,7 +24,7 @@ public class Cube : MonoBehaviour
     // for highlighting 
     //private Material originalMaterial;
     //public Material outlineMaterial;
-    private Color hoverColor = Color.red;
+    private Color hoverColor = new Color(146f / 255f, 1.0f, 216f / 255f);
     private Color originalColor;
     public SpriteRenderer cubeRenderer;
 
@@ -34,10 +34,6 @@ public class Cube : MonoBehaviour
     {
         initialPosition = transform.position;
         cubeRenderer = GetComponent<SpriteRenderer>();
-        if (cubeRenderer != null )
-        {
-            Debug.Log("found renderer");
-        }
 
         //originalMaterial = cubeRenderer.material;
         originalColor = cubeRenderer.color;
@@ -56,27 +52,26 @@ public class Cube : MonoBehaviour
                 if(!dontTouch) ResetPosition(this);
             }
         }
-        if (Input.GetMouseButtonDown(0)) // dismiss selection if clicked outside Cube objects
-        {
-            //also reset placement selection-------------------------------------------------------------------------------------
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
+        //if (Input.GetMouseButtonDown(0) && !gameManager.isEnemyMove) // dismiss selection if clicked outside Cube objects
+        //{
+        //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //    RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
 
-            if (hit.collider == null || !hit.collider.CompareTag("Piece") && !EventSystem.current.IsPointerOverGameObject())
-            {
-                if ( selecting != null)
-                {
-                    StopCoroutine(selecting);
-                }
-                isSelected = false;
-                ResetSelected(this);
-                if (gameManager.selectedCube != null)
-                {
-                    gameManager.DeselectCube();
-                    isSelected = false;
-                }
-            }
-        }
+        //    if (hit.collider == null || !hit.collider.CompareTag("Piece") && !EventSystem.current.IsPointerOverGameObject())
+        //    {
+        //        if ( selecting != null)
+        //        {
+        //            StopCoroutine(selecting);
+        //        }
+        //        isSelected = false;
+        //        ResetSelected(this);
+        //        if (gameManager.selectedCube != null)
+        //        {
+        //            gameManager.DeselectCube();
+        //            isSelected = false;
+        //        }
+        //    }
+        //}
     }
 
 
@@ -95,14 +90,14 @@ public class Cube : MonoBehaviour
     public void OnMouseDown()
     {
         Debug.Log("Mouse Clicked on " + gameObject.name);
-        if (isPossiblePlacement && gameManager.IsPlayerTurn()) // if chose Cube and chose where to put it
+        if (isPossiblePlacement && gameManager.IsPlayerTurn() && !gameManager.isPaused) // if chose Cube and chose where to put it
         {
             gameManager.SetPlaceCube(this); 
             gameManager.MakeMove();
             gameManager.ClearPlacementHighlight();
         }
         // track only if the Cube is interactable
-        else if (IsAllowedToMove() && gameManager.IsPlayerTurn())
+        else if (IsAllowedToMove() && gameManager.IsPlayerTurn() && !gameManager.isPaused)
         {
             if (gameManager.selectedCube != null && gameManager.selectedCube != this)
             {
@@ -120,7 +115,7 @@ public class Cube : MonoBehaviour
     public void OnMouseEnter()
     {
         // track only if the Cube is interactable
-        if (IsAllowedToMove() && !isPossiblePlacement && !isSelected && gameManager.IsPlayerTurn())
+        if (IsAllowedToMove() && !isPossiblePlacement && !isSelected && gameManager.IsPlayerTurn() && !gameManager.isPaused)
         {
             isHovering = true;
         }
@@ -195,7 +190,7 @@ public class Cube : MonoBehaviour
 
     public void HighlightSelection()
     {
-        cubeRenderer.color = Color.green;
+        cubeRenderer.color = new Color(1.0f, 0.6666667f, 0.88235294f);
     }
 
     public void ResetHighlight()

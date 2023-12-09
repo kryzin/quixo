@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using System;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class UIManager : MonoBehaviour
     public TMP_Text winner;
     public TMP_Text winMessage;
     public Board board;
+    public Button PauseButton;
+    public GameObject pausePopUp;
+    
 
     private float timer = 0.0f;
     private bool isTimer = false;
@@ -20,6 +24,7 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         gameOverPopUp.SetActive(false);
+        pausePopUp.SetActive(false);
         StartClock();
     }
 
@@ -32,9 +37,19 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void DisablePause()
+    {
+        PauseButton.interactable = false;
+    }
+
+    public void EnablePause()
+    {
+        PauseButton.interactable = true;
+    }
+
     void DisplayWinner()
     {
-        winner.text = "WIN FOR: " + gameManager.winner.ToString(); 
+        winner.text = "WIN FOR " + gameManager.winner.ToString(); 
     }
 
     void DisplayEndMessage(int i)
@@ -75,6 +90,11 @@ public class UIManager : MonoBehaviour
         DisplayEndMessage(i);
     }
 
+    public void HandlePausePopUp(bool active)
+    {
+        pausePopUp.SetActive(active);
+    }
+
     public void ResetGame() // use for new round also
     {
         timer = 0.0f;
@@ -83,7 +103,9 @@ public class UIManager : MonoBehaviour
 
     public void PauseGame()
     {
+        gameManager.isPaused = !gameManager.isPaused;
         isTimer = !isTimer;
+        HandlePausePopUp(!isTimer);
         // pause pop up
         // change text on button to play/pause
     }

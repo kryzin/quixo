@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     public UIManager uiManager;
     public RandomEnemy enemy;
     private bool startOnce = false;
+    public bool isPaused = false;
+    public bool isEnemyMove = false;
 
     public Cube selectedCube;
     public Cube placeCube;
@@ -26,6 +28,7 @@ public class GameManager : MonoBehaviour
         currentPlayer = Symbol.X;
         playerSymbol = Random.Range(0, 2) == 0 ? Symbol.O : Symbol.X; //generate random symbol
         enemy.SetEnemySymbol();
+        if (enemy.enemySymbol == currentPlayer) { isEnemyMove = true; }
         board.SetUpBoard();
     }
 
@@ -33,7 +36,9 @@ public class GameManager : MonoBehaviour
     {
         if (currentPlayer == enemy.enemySymbol && !startOnce && !board.isEnd)
         {
+            isEnemyMove = true;
             StartCoroutine(DelayedEnemyMove());
+            uiManager.DisablePause();
         }
     }
 
@@ -41,7 +46,7 @@ public class GameManager : MonoBehaviour
     {
         startOnce = true;
         // Wait for 1 second (adjust the time as needed)
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(1f);
 
         // Now call the method to make the enemy move
         enemy.ChooseCube();
@@ -84,7 +89,7 @@ public class GameManager : MonoBehaviour
     {
         selectedCube = null;
         ClearPlacementHighlight();
-        possibleMove.Clear();
+        //possibleMove.Clear();
     }
 
     public void SwitchTurn()
@@ -98,7 +103,8 @@ public class GameManager : MonoBehaviour
 
     public void ShowMovesPlacement(Cube cube)
     {
-        
+        possibleMove = new List<int[]>();
+
         //input: cube
         //output: highlight where we can put the selected cube
         int row = cube.boardX;
