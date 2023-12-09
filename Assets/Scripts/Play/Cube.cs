@@ -95,14 +95,14 @@ public class Cube : MonoBehaviour
     public void OnMouseDown()
     {
         Debug.Log("Mouse Clicked on " + gameObject.name);
-        if (isPossiblePlacement) // if chose Cube and chose where to put it
+        if (isPossiblePlacement && gameManager.IsPlayerTurn()) // if chose Cube and chose where to put it
         {
             gameManager.SetPlaceCube(this); 
             gameManager.MakeMove();
             gameManager.ClearPlacementHighlight();
         }
         // track only if the Cube is interactable
-        else if (IsAllowedToMove())
+        else if (IsAllowedToMove() && gameManager.IsPlayerTurn())
         {
             if (gameManager.selectedCube != null && gameManager.selectedCube != this)
             {
@@ -120,7 +120,7 @@ public class Cube : MonoBehaviour
     public void OnMouseEnter()
     {
         // track only if the Cube is interactable
-        if (IsAllowedToMove() && !isPossiblePlacement && !isSelected)
+        if (IsAllowedToMove() && !isPossiblePlacement && !isSelected && gameManager.IsPlayerTurn())
         {
             isHovering = true;
         }
@@ -150,7 +150,7 @@ public class Cube : MonoBehaviour
 
     }
 
-    void Select(Cube cube)
+    public void Select(Cube cube)
     {
         gameManager.SelectCube(cube);
         cube.isHovering = false;
@@ -160,7 +160,7 @@ public class Cube : MonoBehaviour
         //cube.transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * hoverSpeed);
         //cube.cubeRenderer.material = cube.outlineMaterial;
         cube.cubeRenderer.color = hoverColor;
-        gameManager.ShowMoves(cube);
+        gameManager.ShowMovesPlacement(cube);
     }
 
     public IEnumerator SelectCoroutine(Cube cube)

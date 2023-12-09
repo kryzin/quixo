@@ -13,36 +13,18 @@ public class UIManager : MonoBehaviour
     public TMP_Text winner;
     public TMP_Text winMessage;
     public Board board;
-    public GameObject symbolX;
-    public GameObject symbolO;
-    private SpriteRenderer xRenderer;
-    private SpriteRenderer oRenderer;
 
     private float timer = 0.0f;
     private bool isTimer = false;
 
     void Start()
     {
-        xRenderer = symbolX.GetComponent<SpriteRenderer>();
-        oRenderer = symbolO.GetComponent<SpriteRenderer>();
-
         gameOverPopUp.SetActive(false);
-        if (gameManager.currentPlayer == GameManager.Symbol.X)
-        {
-            oRenderer.enabled = false;
-            xRenderer.enabled = true;
-        }
-        else
-        {
-            oRenderer.enabled = true;
-            xRenderer.enabled = false;
-        }
         StartClock();
     }
 
     void Update()
     {
-        DisplayPlayer();
         if (isTimer )
         {
             timer += Time.deltaTime;
@@ -50,23 +32,9 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    void DisplayPlayer()
-    {
-        if (gameManager.currentPlayer == GameManager.Symbol.X)
-        {
-            oRenderer.enabled = false;
-            xRenderer.enabled = true;
-        }
-        else
-        {
-            oRenderer.enabled = true;
-            xRenderer.enabled = false;
-        }
-    }
-
     void DisplayWinner()
     {
-        winner.text = gameManager.winner.ToString(); 
+        winner.text = "WIN FOR: " + gameManager.winner.ToString(); 
     }
 
     void DisplayEndMessage(int i)

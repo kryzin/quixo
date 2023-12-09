@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using static GameManager;
 
 public class Board : MonoBehaviour
 {
@@ -211,5 +212,15 @@ public class Board : MonoBehaviour
                 if (board[i,j] != gameManager.selectedCube) { board[i, j].cubeRenderer.sortingOrder = i + j; }
             }
         }
+    }
+
+    public bool IsMyCube(GameManager.Symbol me, int x, int y)
+    {
+        if (x == 0 || x == 4 || y == 0 || y == 4)
+        {
+            if (board[x, y].symbol == me || board[x, y].symbol == GameManager.Symbol.Null) return true;
+        }
+        return false;
+        
     }
 }

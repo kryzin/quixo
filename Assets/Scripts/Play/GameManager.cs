@@ -10,22 +10,50 @@ public class GameManager : MonoBehaviour
     public Board board;
     public Symbol winner;
     public UIManager uiManager;
+    public RandomEnemy enemy;
+    private bool startOnce = false;
 
     public Cube selectedCube;
     public Cube placeCube;
     public List<int[]> possibleMove;
+
+    public Symbol playerSymbol;
 
     void Start()
     {
         possibleMove = new List<int[]>();
         Debug.Log("X starts the game");
         currentPlayer = Symbol.X;
+        playerSymbol = Random.Range(0, 2) == 0 ? Symbol.O : Symbol.X; //generate random symbol
+        enemy.SetEnemySymbol();
         board.SetUpBoard();
     }
 
     void Update()
     {
-        
+        if (currentPlayer == enemy.enemySymbol && !startOnce && !board.isEnd)
+        {
+            StartCoroutine(DelayedEnemyMove());
+        }
+    }
+
+    IEnumerator DelayedEnemyMove()
+    {
+        startOnce = true;
+        // Wait for 1 second (adjust the time as needed)
+        yield return new WaitForSeconds(1.0f);
+
+        // Now call the method to make the enemy move
+        enemy.ChooseCube();
+    }
+
+    public bool IsPlayerTurn()
+    {
+        if (currentPlayer == playerSymbol)
+        {
+            return true;
+        }
+        return false;
     }
 
     public void Win(Symbol player, int i)
@@ -66,11 +94,9 @@ public class GameManager : MonoBehaviour
             currentPlayer = Symbol.O;
         }
         else currentPlayer = Symbol.X;
-
-
     }
 
-    public void ShowMoves(Cube cube)
+    public void ShowMovesPlacement(Cube cube)
     {
         
         //input: cube
@@ -188,6 +214,7 @@ public class GameManager : MonoBehaviour
         selectedCube.isSelected = false;
         ResetAfterMove();
         SwitchTurn();
+        startOnce = false;
     }
 
     public void ResetAfterMove()
