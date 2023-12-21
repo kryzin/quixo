@@ -13,6 +13,9 @@ public class Board : MonoBehaviour
     public GameManager gameManager;
     public GameManager.Symbol winner;
     private bool checkOnce = false;
+    public int[] countRows = new int[5];
+    public int[] countCols = new int[5];
+    public int[] countDiags = new int[2];
     public bool lostWin = false;
     public int countWin = 0;
     private List<GameManager.Symbol> winSymbols = new List<GameManager.Symbol>
@@ -26,6 +29,9 @@ public class Board : MonoBehaviour
         countWin = 0;
         // set board to be empty
         isEnd = false;
+        countRows = new int[5];
+        countCols = new int[5];
+        countDiags = new int[2];
     }
 
     void Update()
@@ -222,5 +228,24 @@ public class Board : MonoBehaviour
         }
         return false;
         
+    }
+
+    public (int[], int[], int[]) CountBoard(GameManager.Symbol symbol)
+    {
+        //count objects with symbol=symbol in rows/cols/diagonals
+        for (int i = 0;i <= 4;i++)
+        {
+            for (int j = 0;j <= 4;j++)
+            {
+                if (board[i, j].symbol == symbol)
+                {
+                    countCols[j]++;
+                    countRows[i]++;
+                    if (i == j) countDiags[0]++;
+                    if (i == 4 - j) countDiags[1]++;
+                }
+            }
+        }
+        return (countRows, countCols, countDiags);
     }
 }
