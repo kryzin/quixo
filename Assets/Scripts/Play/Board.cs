@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using static GameManager;
 
@@ -104,29 +102,31 @@ public class Board : MonoBehaviour
                 winning++;
                 winningLines.Add(("diagonal", 0), symbol);
             }
+
+            // assigning the winner
+            if (winning == 1)
+            {
+                winner = winningLines.Values.First();
+                isEnd = true;
+            }
         }
 
-        if (winning == 1)
-        {
-            isEnd = true;
-            if (gameManager.currentPlayer == GameManager.Symbol.X) { winner = GameManager.Symbol.O; }
-            else { winner = GameManager.Symbol.X; }
-        }
-        else if (winning > 1)
+        if (winning > 1)
         {
             // if all winning lines symbols == currentPlayer symbol -> this player wins
-            GameManager.Symbol sampleSymbol = winningLines.Values.FirstOrDefault();
+            GameManager.Symbol sampleSymbol = winningLines.Values.First();
             if (winningLines.Values.All(symbol => symbol == sampleSymbol))
             {
-                if (gameManager.currentPlayer == GameManager.Symbol.X) { winner = GameManager.Symbol.O; }
-                else { winner = GameManager.Symbol.X; }
+                winner = sampleSymbol;
             }
             // but if even one line is of opposite symbol -> the opponent wins
             else
             {
-                winner = gameManager.currentPlayer;
                 lostWin = true;
+                if (gameManager.currentPlayer == GameManager.Symbol.X) winner = GameManager.Symbol.O;
+                else winner = GameManager.Symbol.X;
             }
+            isEnd = true;
         }
         countWin = winning;
     }

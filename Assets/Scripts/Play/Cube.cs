@@ -160,6 +160,7 @@ public class Cube : MonoBehaviour
 
     public IEnumerator SelectCoroutine(Cube cube)
     {
+        gameManager.audioManager.SelectSound();
         Vector3 currentPosition = cube.transform.position;
         Vector3 targetPosition = new Vector3(cube.initialPosition.x, cube.initialPosition.y + hoverAmount + 0.7f, cube.initialPosition.z);
 
@@ -212,6 +213,7 @@ public class Cube : MonoBehaviour
 
     public IEnumerator MoveCoroutine(Cube cube, int directionX, int directionY)
     {
+        gameManager.audioManager.MoveSound();
         // this should be: first move V3(+1.1f,y,z) and at the end move 1.1f=x down
         float speed = 2f;
         Vector3 targetPosition = cube.initialPosition + new Vector3(1.25f * directionX, 0.75f * directionY, 0);

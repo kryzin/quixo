@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour
     public Board board;
     public Button PauseButton;
     public GameObject pausePopUp;
+    public AudioManager audioManager;
     
 
     private float timer = 0.0f;
@@ -56,7 +57,7 @@ public class UIManager : MonoBehaviour
     {
         if (i == 1)
         {
-            winMessage.text = "You got 5 in a row!";
+            winMessage.text = "5 in a row!";
         }
         else
         {
@@ -85,6 +86,12 @@ public class UIManager : MonoBehaviour
 
     public void ShowEndPopUp(int i)
     {
+        if (gameManager.winner == gameManager.playerSymbol)
+        {
+            audioManager.WinGameOver();
+        }
+        else audioManager.LoseGameOver();
+
         gameOverPopUp.SetActive(true);
         DisplayWinner();
         DisplayEndMessage(i);
@@ -92,6 +99,7 @@ public class UIManager : MonoBehaviour
 
     public void HandlePausePopUp(bool active)
     {
+        audioManager.PauseSound();
         pausePopUp.SetActive(active);
     }
 

@@ -65,15 +65,16 @@ public class MainMenu : MonoBehaviour
     public void SetMusicVolume()
     {
         float volume = musicVolumeSlider.value;
-        audioMixer.SetFloat("Music", Mathf.Log10(volume) * 20);
+        float mappedVolume = Mathf.Lerp(-80f, 20f, volume);
+        audioMixer.SetFloat("Music", mappedVolume);
         musicVolume = volume;
-        Debug.Log(musicVolume);
     }
 
     public void SetSFXVolume()
     {
         float volume = sfxVolumeSlider.value;
-        audioMixer.SetFloat("SFX", Mathf.Log10(volume) * 20);
+        float mappedVolume = Mathf.Lerp(-80f, 20f, volume);
+        audioMixer.SetFloat("SFX", mappedVolume);
         sfxVolume = volume;
     }
 
@@ -108,19 +109,14 @@ public class MainMenu : MonoBehaviour
 
         if (PlayerPrefs.HasKey("MusicVolume"))
             musicVolumeSlider.value = PlayerPrefs.GetFloat("MusicVolume");
-        else
-        {
-            musicVolumeSlider.value = musicVolumeSlider.maxValue;
-            SetMusicVolume();
-        }
+        else musicVolumeSlider.value = musicVolumeSlider.maxValue;
 
         if (PlayerPrefs.HasKey("SFXVolume"))
             sfxVolumeSlider.value = PlayerPrefs.GetFloat("SFXVolume");
-        else
-        {
-            sfxVolumeSlider.value = sfxVolumeSlider.maxValue;
-            SetSFXVolume();
-        }
+        else sfxVolumeSlider.value = sfxVolumeSlider.maxValue;
+
+        SetMusicVolume();
+        SetSFXVolume();
     }
 
     void InitializeDropdown()

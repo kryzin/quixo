@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     public List<int[]> possibleMove;
 
     public Symbol playerSymbol;
+    public AudioManager audioManager;
 
     void Start()
     {
