@@ -47,7 +47,8 @@ public class Board : MonoBehaviour
 
     void IsGameOver()
     {
-        Dictionary<(string, int), GameManager.Symbol> winningLines = new Dictionary<(string, int), GameManager.Symbol>();
+        Dictionary<(string, int), GameManager.Symbol> winningLines = new Dictionary<(string, int),
+            GameManager.Symbol>();
         int winning = 0;
         // EDGE CASE: more than one full of different symbols
         // the game is over if any row/column/diagonal is full of the same symbol

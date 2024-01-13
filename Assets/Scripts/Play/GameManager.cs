@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour
     public Symbol playerSymbol;
     public AudioManager audioManager;
 
+    public int wasTutorial = 0;
+
     void Start()
     {
         possibleMove = new List<int[]>();

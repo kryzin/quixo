@@ -6,7 +6,6 @@ using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
-using Newtonsoft.Json.Linq;
 
 public class MainMenu : MonoBehaviour
 {
@@ -17,6 +16,9 @@ public class MainMenu : MonoBehaviour
     public Toggle fullscreenToggle;
     public Slider musicVolumeSlider;
     public Slider sfxVolumeSlider;
+    public GameManager gameManager;
+
+    public int wasTutorial;
 
     float musicVolume = 20f;
     float sfxVolume = 20f;
@@ -37,7 +39,16 @@ public class MainMenu : MonoBehaviour
     }
     public void PlayGame()
     {
-        SceneManager.LoadScene(1); // 1 is You vs You gameplay
+        if (PlayerPrefs.HasKey("Tutorial"))
+            wasTutorial = PlayerPrefs.GetInt("Tutorial");
+        else wasTutorial = 0;
+        if (wasTutorial == 0) SceneManager.LoadScene(2);
+        else SceneManager.LoadScene(1);
+    }
+
+    public void Tutorial()
+    {
+        SceneManager.LoadScene(2);
     }
 
     public void QuitGame()
@@ -78,14 +89,16 @@ public class MainMenu : MonoBehaviour
         sfxVolume = volume;
     }
 
-    public void SetFullscreen(bool isFullscreen)
+    public void SetFullscreen()
     {
-        Screen.fullScreen = isFullscreen;
+        Screen.fullScreen = fullscreenToggle.isOn;
+        Debug.Log(fullscreenToggle.isOn + " " + Screen.fullScreen);
     }
 
-    public void SetResolution(int resolutionIndex)
+    public void SetResolution()
     {
-        Resolution resolution = resolutions[resolutionIndex];
+        Resolution resolution = resolutions[resolutionDropdown.value];
+        Debug.Log(resolutionDropdown.value + " " + resolution.ToString());
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
 
