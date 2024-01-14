@@ -200,11 +200,11 @@ public class UIManager : MonoBehaviour
     {
         if (PlayerPrefs.HasKey("MusicVolume"))
             musicVolumeSlider.value = PlayerPrefs.GetFloat("MusicVolume");
-        else musicVolumeSlider.value = musicVolumeSlider.maxValue;
+        else musicVolumeSlider.value = 0.5f;
 
         if (PlayerPrefs.HasKey("SFXVolume"))
             sfxVolumeSlider.value = PlayerPrefs.GetFloat("SFXVolume");
-        else sfxVolumeSlider.value = sfxVolumeSlider.maxValue;
+        else sfxVolumeSlider.value = 0.5f;
 
         SetMusicVolume();
         SetSFXVolume();

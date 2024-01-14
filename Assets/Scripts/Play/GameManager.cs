@@ -67,6 +67,12 @@ public class GameManager : MonoBehaviour
     public void Win(Symbol player, int i)
     {
         winner = player;
+        StartCoroutine(DelayedWinScreen(i));
+    }
+
+    IEnumerator DelayedWinScreen(int i)
+    {
+        yield return new WaitForSeconds(1.2f);
         uiManager.ShowEndPopUp(i);
     }
 
